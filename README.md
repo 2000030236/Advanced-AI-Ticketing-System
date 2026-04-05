@@ -268,26 +268,33 @@ npm run dev
 
 ## 📸 Screenshots
 
-please check screenshots folder
+<img width="1735" height="1332" alt="user_dashboard" src="https://github.com/user-attachments/assets/4e9b9011-a3b2-43d1-90ec-83d4d636e44e" />
+User_dashboard-->To see a minimal analytics
+
+<img width="1327" height="1324" alt="Auto_Reslove" src="https://github.com/user-attachments/assets/56cf3b98-6804-4014-98bd-b4261d286632" />
+AI Detected and Resloved This Ticket.
+
+<img width="1254" height="1333" alt="Auto_Reslove (2)" src="https://github.com/user-attachments/assets/373a4452-3666-40c1-af43-2cce0fa5d68a" />
+This are the Info.
+
+<img width="844" height="1271" alt="Human_Assigned" src="https://github.com/user-attachments/assets/92a445b6-ac5c-46de-bf2b-e40fef5bca4e" />
+This is Human Assigned.
+
+<img width="1574" height="1329" alt="Assignee_portal(Ticket-checker)" src="https://github.com/user-attachments/assets/f0db1d9b-7db3-4e8a-881a-5f4a04615b5a" />
+This is Asiignee(employee) Who Sloves when Ticket is not Sloved by AI.
+
+<img width="1549" height="1333" alt="Admin_portal" src="https://github.com/user-attachments/assets/5f88915d-83cb-4f78-a3b1-e310fc6952cd" />
+
+<img width="1135" height="1253" alt="Admin_portal (2)" src="https://github.com/user-attachments/assets/b2ba7d59-9242-4c4a-b161-03217ce10eda" />
+
+Admin Portal With All Statics.
 
 
 ---
 
 ## 🎥 Demo Video
 
-<img width="1735" height="1332" alt="user_dashboard" src="https://github.com/user-attachments/assets/e51f6233-6ade-4e69-91af-d020383e5521" />
 
-<img width="1574" height="1329" alt="Assignee_portal(Ticket-checker)" src="https://github.com/user-attachments/assets/166ae06c-8933-4217-a454-d3f199f9f979" />
-
-<img width="1327" height="1324" alt="Auto_Reslove" src="https://github.com/user-attachments/assets/2d46e11b-9d14-4c2a-abc1-db8706f5c387" />
-
-<img width="1254" height="1333" alt="Auto_Reslove (2)" src="https://github.com/user-attachments/assets/61eb91f0-e8bb-456c-99b4-1bb6d2eae4f7" />
-
-<img width="844" height="1271" alt="Human_Assigned" src="https://github.com/user-attachments/assets/9df54107-50f8-402e-ba16-6c466ec9b1ed" />
-
-<img width="1549" height="1333" alt="Admin_portal" src="https://github.com/user-attachments/assets/450bf8b7-8379-4c17-9ca9-cd2ce6d79edc" />
-
-<img width="1135" height="1253" alt="Admin_portal (2)" src="https://github.com/user-attachments/assets/242caf16-0b2f-4310-8f2e-d43792fcf0d9" />
 
 ---
 
