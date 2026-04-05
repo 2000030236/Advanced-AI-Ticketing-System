@@ -1,0 +1,106 @@
+[
+  {
+    "name": "Arjun Sharma", "email": "arjun.s@company.com", "department": "IT", "role": "Senior Infrastructure Architect",
+    "skills": ["Enterprise Networking", "Global Firewall Strategy", "Cisco CCIE"], "avg_resolution_time": 1.2, "current_load": 1, "tickets_resolved": 2450, "availability": "Available"
+  },
+  {
+    "name": "John Smith", "email": "j.smith@company.com", "department": "IT", "role": "Technical Lead",
+    "skills": ["Identity Governance", "Zero-Trust Security", "Enterprise Access"], "avg_resolution_time": 0.8, "current_load": 3, "tickets_resolved": 4120, "availability": "Busy"
+  },
+  {
+    "name": "Li Wei", "email": "l.wei@company.com", "department": "IT", "role": "Hardware Systems Lead",
+    "skills": ["Datacenter Hardware", "Quantum Systems", "Infrastructure Reliability"], "avg_resolution_time": 1.5, "current_load": 1, "tickets_resolved": 1890, "availability": "Available"
+  },
+  {
+    "name": "Sara Tancredi", "email": "sara.t@company.com", "department": "IT", "role": "Head of Cyber Operations",
+    "skills": ["Strategic Defense", "Forensic Analysis", "Security Architecture"], "avg_resolution_time": 2.2, "current_load": 2, "tickets_resolved": 956, "availability": "Available"
+  },
+  {
+    "name": "James Gordon", "email": "j.gordon@company.com", "department": "IT", "role": "Principal Systems Admin",
+    "skills": ["High-Availability Systems", "Enterprise AD", "BDR Strategy"], "avg_resolution_time": 1.4, "current_load": 2, "tickets_resolved": 3210, "availability": "On Leave"
+  },
+
+  {
+    "name": "David Chen", "email": "d.chen@company.com", "department": "Engineering", "role": "Principal Database Architect",
+    "skills": ["Global Cluster Design", "NuDB Performance", "PostgreSQL Core", "Advanced Recovery"], "avg_resolution_time": 1.8, "current_load": 1, "tickets_resolved": 1412, "availability": "Available"
+  },
+  {
+    "name": "Emily Watson", "email": "e.watson@company.com", "department": "Engineering", "role": "Staff Backend Engineer",
+    "skills": ["Distributed Systems", "Python Performance", "Scalable Microservices"], "avg_resolution_time": 1.2, "current_load": 2, "tickets_resolved": 3240, "availability": "Available"
+  },
+  {
+    "name": "Rahul Mehta", "email": "rahul.m@company.com", "department": "Engineering", "role": "Technical Quality Director",
+    "skills": ["SDLC Optimization", "Complex Automation", "Process Engineering"], "avg_resolution_time": 0.9, "current_load": 4, "tickets_resolved": 2190, "availability": "Busy"
+  },
+  {
+    "name": "Elena Fisher", "email": "elena.f@company.com", "department": "Engineering", "role": "Principal UI/UX Architect",
+    "skills": ["Advanced Reactivity", "Design Systems", "Performance Frontend"], "avg_resolution_time": 1.1, "current_load": 1, "tickets_resolved": 2750, "availability": "Available"
+  },
+  {
+    "name": "Victor Sullivan", "email": "sully@company.com", "department": "Engineering", "role": "Chief Technology Architect",
+    "skills": ["Enterprise Scale", "Cloud Sovereignty", "High-Load Design"], "avg_resolution_time": 2.5, "current_load": 1, "tickets_resolved": 845, "availability": "Available"
+  },
+
+  {
+    "name": "Priya Kapoor", "email": "p.kapoor@company.com", "department": "HR", "role": "Director of People Ops",
+    "skills": ["Strategic Policy", "M&A Integration", "Global Compliance"], "avg_resolution_time": 1.0, "current_load": 2, "tickets_resolved": 1600, "availability": "Available"
+  },
+  {
+    "name": "Tom Hagen", "email": "t.hagen@company.com", "department": "HR", "role": "Chief Talent Partner",
+    "skills": ["Executive Sourcing", "Organizational Design", "Leadership Development"], "avg_resolution_time": 2.0, "current_load": 3, "tickets_resolved": 1200, "availability": "Busy"
+  },
+  {
+    "name": "Donna Paulsen", "email": "donna@company.com", "department": "HR", "role": "Executive Admin Lead",
+    "skills": ["Operations Strategy", "Crisis Communication", "Efficiency Optimization"], "avg_resolution_time": 0.5, "current_load": 0, "tickets_resolved": 8450, "availability": "Available"
+  },
+  {
+    "name": "Jessica Pearson", "email": "jessica.p@company.com", "department": "HR", "role": "Managing Partner",
+    "skills": ["Enterprise Negotiation", "Legal Advocacy", "Strategic Growth"], "avg_resolution_time": 3.5, "current_load": 1, "tickets_resolved": 985, "availability": "On Leave"
+  },
+  {
+    "name": "Louis Litt", "email": "louis@company.com", "department": "HR", "role": "Director of Retention",
+    "skills": ["Equity Strategy", "Mentorship Programs", "Conflict Mediation"], "avg_resolution_time": 1.8, "current_load": 2, "tickets_resolved": 2230, "availability": "Available"
+  },
+
+  {
+    "name": "Michael Brown", "email": "m.brown@company.com", "department": "Finance", "role": "Chief Financial Analyst",
+    "skills": ["International Taxation", "Fiscal Strategy", "Global Audit"], "avg_resolution_time": 1.4, "current_load": 3, "tickets_resolved": 3320, "availability": "Busy"
+  },
+  {
+    "name": "Beth Smith", "email": "beth.s@company.com", "department": "Finance", "role": "Global Analyst",
+    "skills": ["Risk Management", "Capex Strategy", "Financial Modeling"], "avg_resolution_time": 0.9, "current_load": 1, "tickets_resolved": 1500, "availability": "Available"
+  },
+  {
+    "name": "Marty Byrde", "email": "marty@company.com", "department": "Finance", "role": "Strategic Asset Lead",
+    "skills": ["Capital Recovery", "Investment Planning", "Forensic Accounting"], "avg_resolution_time": 2.8, "current_load": 1, "tickets_resolved": 405, "availability": "Available"
+  },
+  {
+    "name": "Oscar Martinez", "email": "oscar@company.com", "department": "Finance", "role": "Senior Controller",
+    "skills": ["Treasury Ops", "Accounts Control", "Compliance Oversight"], "avg_resolution_time": 0.7, "current_load": 2, "tickets_resolved": 5400, "availability": "Available"
+  },
+  {
+    "name": "Angela Martin", "email": "angela@company.com", "department": "Finance", "role": "Audit Principal",
+    "skills": ["Corporate Governance", "Fraud Prevention", "Internal Systems Audit"], "avg_resolution_time": 1.5, "current_load": 1, "tickets_resolved": 1195, "availability": "Available"
+  },
+
+  {
+    "name": "Elena Rossi", "email": "e.rossi@company.com", "department": "Legal", "role": "Managing Counsel",
+    "skills": ["Strategic Litigation", "Global IP Strategy", "Contract Frameworks"], "avg_resolution_time": 1.8, "current_load": 0, "tickets_resolved": 1088, "availability": "Available"
+  },
+  {
+    "name": "Harvey Specter", "email": "harvey@company.com", "department": "Legal", "role": "Senior Partner",
+    "skills": ["M&A Strategy", "High-Stakes Negotiation", "Corporate Defense"], "avg_resolution_time": 3.0, "current_load": 2, "tickets_resolved": 1500, "availability": "Busy"
+  },
+  {
+    "name": "Mike Ross", "email": "mike@company.com", "department": "Legal", "role": "Senior Associate",
+    "skills": ["Case Synthesis", "Due Diligence", "Legal Research"], "avg_resolution_time": 1.1, "current_load": 3, "tickets_resolved": 2210, "availability": "Available"
+  },
+  {
+    "name": "Kim Wexler", "email": "kim.w@company.com", "department": "Legal", "role": "Director of Compliance",
+    "skills": ["Regulatory Frameworks", "Ethics Leadership", "Policy Development"], "avg_resolution_time": 2.2, "current_load": 1, "tickets_resolved": 1130, "availability": "Available"
+  },
+  {
+    "name": "Saul Goodman", "email": "saul@company.com", "department": "Legal", "role": "Contract Specialist Lead",
+    "skills": ["Litigation Support", "Document Drafting", "Advocacy"], "avg_resolution_time": 1.5, "current_load": 3, "tickets_resolved": 3900, "availability": "Available"
+  }
+]
