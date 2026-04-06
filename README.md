@@ -271,9 +271,9 @@ npm run dev
 
 <img width="625" height="608" alt="image" src="https://github.com/user-attachments/assets/a2573454-ea28-4e3c-b378-f52632b6acd4" />
 
-User_dashboard-->To see a minimal analytics
+User_dashboard
 
-<img width="1327" height="1324" alt="Auto_Reslove" src="https://github.com/user-attachments/assets/56cf3b98-6804-4014-98bd-b4261d286632" />
+<img width="615" height="580" alt="image" src="https://github.com/user-attachments/assets/306d8290-4d0a-464b-b0f8-085c2497a922" />
 
 AI Detected and Resloved This Ticket.
 
