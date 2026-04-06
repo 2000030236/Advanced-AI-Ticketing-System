@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 const CustomerAuth = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,11 @@ const CustomerAuth = ({ onLogin }) => {
         return;
     }
 
+    if (!isLogin && fullName.trim().length < 2) {
+        setError('Please enter your full name');
+        return;
+    }
+
     if (password.length < 4) {
         setError('Password must be at least 4 characters long');
         return;
@@ -46,17 +52,19 @@ const CustomerAuth = ({ onLogin }) => {
     try {
       const response = await axios.post(`http://localhost:8000/api/auth/${endpoint}/`, {
         email,
-        password
+        password,
+        name: fullName
       });
       
-      const { user_id, role } = response.data;
-      onLogin(user_id, email, role || 'customer');
+      const { user_id, role, name, email: resEmail } = response.data;
+      onLogin(user_id, resEmail || email, role || 'customer', name);
     } catch (err) {
       setError(err.response?.data?.error || 'Authentication failed');
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <motion.div
@@ -69,6 +77,20 @@ const CustomerAuth = ({ onLogin }) => {
       </h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
+        {!isLogin && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mb-4">
+            <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Full Name</label>
+            <input
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500/50 transition-colors placeholder:text-white/20"
+              placeholder="Enter your full name"
+              required
+            />
+          </motion.div>
+        )}
+        
         <div>
           <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Email / Identifier</label>
           <input

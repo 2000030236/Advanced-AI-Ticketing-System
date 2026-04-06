@@ -210,19 +210,62 @@ const TicketResult = ({ ticket, onReset }) => {
 
 
 
-          {showMessages && (
-             <div className="absolute top-full right-0 mt-3 w-80 max-h-96 overflow-y-auto bg-[#1a1a1a] border border-white/10 rounded-xl shadow-[0_0_40px_rgba(0,0,0,0.8)] p-4 backdrop-blur-xl">
-               <h3 className="text-white font-bold tracking-widest uppercase text-xs mb-4 border-b border-white/10 pb-2">Ticket Updates</h3>
-               <ul className="space-y-4">
-                 {ticket.notifications.map(notif => (
-                   <li key={notif.id} className="text-white/80 text-sm border-l-2 border-blue-500 pl-3">
-                      <span className="block font-medium">{notif.message}</span>
-                      <span className="text-white/40 text-[9px] uppercase tracking-wider">{new Date(notif.date).toLocaleString()}</span>
-                   </li>
-                 ))}
-               </ul>
-             </div>
-          )}
+          <AnimatePresence>
+            {showMessages && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className="absolute top-full right-0 mt-4 w-[350px] max-h-[500px] flex flex-col bg-[#0f1115]/95 border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl z-[100] overflow-hidden"
+              >
+                <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-blue-500/20 rounded-lg">
+                      <Mail className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <span className="text-xs font-black text-white uppercase tracking-[0.2em]">Communication Log</span>
+                  </div>
+                  <button 
+                    onClick={() => setShowMessages(false)}
+                    className="p-1.5 hover:bg-white/10 rounded-lg text-white/40 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                
+                <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
+                  {ticket.notifications.map((notif, idx) => (
+                    <motion.div 
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                      key={notif.id} 
+                      className="group relative p-4 bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 rounded-xl transition-all"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="mt-1 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <div className="space-y-2">
+                          <p className="text-sm text-white/80 leading-relaxed font-medium">
+                            {notif.message}
+                          </p>
+                          <div className="flex items-center gap-2 text-[9px] font-bold text-white/20 uppercase tracking-widest">
+                            <Clock className="w-3 h-3" />
+                            {new Date(notif.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <div className="p-4 bg-black/40 border-t border-white/5">
+                  <p className="text-[9px] text-center text-white/20 uppercase tracking-[0.2em] font-bold">
+                    SECURE COMMUNICATION CHANNEL STABLE
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
 

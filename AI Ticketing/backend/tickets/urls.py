@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     TicketCreateView, TicketFeedbackView, AssigneeTicketsView, TicketStatusUpdateView, 
     AssigneeTicketNoteUpdateView, CustomerLoginView, CustomerRegisterView, 
-    CustomerDashboardView, TicketDeleteView, MarkNotificationsReadView, AdminDashboardView, AnalyticsView
+    CustomerDashboardView, TicketDetailView, MarkNotificationsReadView, AdminDashboardView, AnalyticsView
 )
 
 urlpatterns = [
@@ -10,7 +10,7 @@ urlpatterns = [
     path('auth/login/', CustomerLoginView.as_view(), name='customer-login'),
     path('auth/dashboard/', CustomerDashboardView.as_view(), name='customer-dashboard'),
     path('tickets/', TicketCreateView.as_view(), name='ticket-create'),
-    path('tickets/<int:pk>/', TicketDeleteView.as_view(), name='ticket-delete'),
+    path('tickets/<int:pk>/', TicketDetailView.as_view(), name='ticket-detail'),
     path('tickets/<int:pk>/notifications/read/', MarkNotificationsReadView.as_view(), name='mark-notifications-read'),
 
     path('tickets/<int:pk>/feedback/', TicketFeedbackView.as_view(), name='ticket-feedback'),

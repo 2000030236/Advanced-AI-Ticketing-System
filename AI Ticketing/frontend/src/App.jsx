@@ -25,6 +25,9 @@ const CustomerPortal = () => {
   const [userEmail, setUserEmail] = useState(
     localStorage.getItem('customerEmail') || ''
   );
+  const [userName, setUserName] = useState(
+    localStorage.getItem('userName') || ''
+  );
   const [userId, setUserId] = useState(
     localStorage.getItem('customerId') || null
   );
@@ -47,14 +50,38 @@ const CustomerPortal = () => {
     }
   };
 
-  const handleLogin = (id, email, role) => {
+  // Feature: Real-time ticket synchronization
+  // If a user is viewing a result, poll the backend for updates every 5 seconds
+  React.useEffect(() => {
+    let intervalId;
+    if (ticket && ticket.id) {
+      intervalId = setInterval(async () => {
+        try {
+          const response = await axios.get(`http://localhost:8000/api/tickets/${ticket.id}/`);
+          // Only update if something actually changed to avoid unnecessary re-renders
+          if (JSON.stringify(response.data) !== JSON.stringify(ticket)) {
+            handleSetTicket(response.data);
+          }
+        } catch (err) {
+          console.error("Polling sync failed", err);
+        }
+      }, 5000);
+    }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [ticket?.id]);
+
+  const handleLogin = (id, email, role, name) => {
     setUserId(id);
     setUserEmail(email);
     setUserRole(role);
+    setUserName(name || '');
     setIsAuthenticated(true);
     localStorage.setItem('customerId', id);
     localStorage.setItem('customerEmail', email);
     localStorage.setItem('userRole', role);
+    localStorage.setItem('userName', name || '');
     
     if (role === 'admin') {
       navigate('/admin');
@@ -67,9 +94,11 @@ const CustomerPortal = () => {
     localStorage.removeItem('customerId');
     localStorage.removeItem('customerEmail');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
     setIsAuthenticated(false);
     setUserId(null);
     setUserEmail('');
+    setUserName('');
     setUserRole('customer');
     setTicket(null);
     setShowForm(false);
@@ -104,76 +133,84 @@ const CustomerPortal = () => {
 
   return (
     <>
-      <Header />
-      <main className="relative min-h-[60vh] flex flex-col justify-center">
+      <Header 
+        isAuthenticated={isAuthenticated}
+        userName={userName}
+        userEmail={userEmail}
+        userRole={userRole}
+        onLogout={handleLogout}
+        onBackToDashboard={handleBackToDashboard}
+        isFormOrResult={showForm || !!ticket}
+      />
+      <main className="relative min-h-[60vh] flex flex-col items-center">
         {!isAuthenticated ? (
-          <CustomerAuth onLogin={handleLogin} />
+          <div className="min-h-screen flex items-center justify-center">
+            <CustomerAuth onLogin={handleLogin} />
+          </div>
         ) : (
-          <AnimatePresence mode="wait">
-            <div className="absolute top-4 right-4 flex space-x-4 items-center z-10">
-              <span className="text-white/50 text-sm tracking-widest uppercase hidden md:inline">Logged in as {userEmail} ({userRole})</span>
-              {userRole === 'admin' && (
-                <button onClick={() => navigate('/admin')} className="text-red-400 hover:text-red-300 text-xs tracking-widest uppercase font-black px-3 py-1 border border-red-500/20 rounded-full">Admin Panel</button>
+          <div className="w-full">
+            <AnimatePresence mode="wait">
+              {!showForm && !ticket ? (
+                <motion.div
+                  key="dashboard"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="pt-8 w-full"
+                >
+                  <CustomerDashboard 
+                    userId={userId} 
+                    onRaiseComplaint={handleRaiseComplaint} 
+                    onViewTicket={(t) => handleSetTicket(t)} 
+                  />
+                </motion.div>
+              ) : showForm && !ticket ? (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="mb-8 text-center space-y-4 pt-6">
+                    <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-[0.9]">
+                      The Power of <span className="text-blue-500">Autonomous</span> Support
+                    </h2>
+                    <p className="text-white/40 text-sm md:text-base font-medium max-w-xl mx-auto uppercase tracking-widest leading-loose">
+                       Multi-vector AI engine for enterprise ticket intake and processing.
+                    </p>
+                  </div>
+                  <TicketForm onSubmit={handleSubmit} loading={loading} />
+                  {error && <p className="mt-6 text-center text-red-500 text-sm font-semibold uppercase tracking-widest">{error}</p>}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="result"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="pt-6"
+                >
+                  <div className="mb-10 flex justify-center">
+                    <button 
+                      onClick={handleBackToDashboard} 
+                      className="group flex items-center gap-3 px-8 py-3 bg-white/5 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/30 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-blue-400 transition-all duration-300 shadow-xl"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                      </svg>
+                      Back to Dashboard
+                    </button>
+                  </div>
+                  <TicketResult ticket={ticket} onReset={() => handleSetTicket(null)} />
+                </motion.div>
               )}
-              {showForm && (
-                <button onClick={handleBackToDashboard} className="text-white/50 hover:text-white text-xs tracking-widest uppercase">Dashboard</button>
-              )}
-              <button onClick={handleLogout} className="text-blue-400 hover:text-blue-300 text-xs tracking-widest uppercase">Logout</button>
-            </div>
-            
-            {!showForm && !ticket ? (
-               <motion.div
-                 key="dashboard"
-                 initial={{ opacity: 0, x: -20 }}
-                 animate={{ opacity: 1, x: 0 }}
-                 exit={{ opacity: 0, x: 20 }}
-                 transition={{ duration: 0.3 }}
-                 className="pt-16 w-full"
-               >
-                 <CustomerDashboard 
-                   userId={userId} 
-                   onRaiseComplaint={handleRaiseComplaint} 
-                   onViewTicket={(t) => handleSetTicket(t)} 
-                 />
-               </motion.div>
-            ) : showForm && !ticket ? (
-              <motion.div
-                key="form"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="mb-12 text-center space-y-4 pt-12">
-                  <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase leading-[0.9]">
-                    The Power of <span className="text-blue-500">Autonomous</span> Support
-                  </h2>
-                  <p className="text-white/40 text-sm md:text-base font-medium max-w-xl mx-auto uppercase tracking-widest leading-loose">
-                     Multi-vector AI engine for enterprise ticket intake and processing.
-                  </p>
-                </div>
-                <TicketForm onSubmit={handleSubmit} loading={loading} />
-                {error && <p className="mt-6 text-center text-red-500 text-sm font-semibold uppercase tracking-widest">{error}</p>}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="result"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="pt-12"
-              >
-                <div className="mb-6 flex justify-center space-x-4">
-                  <button onClick={handleBackToDashboard} className="text-white/40 hover:text-white text-xs uppercase tracking-widest font-bold transition-colors">
-                    ← Back to Dashboard
-                  </button>
-                </div>
-                <TicketResult ticket={ticket} onReset={() => handleSetTicket(null)} />
-              </motion.div>
-            )}
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         )}
+
       </main>
       <footer className="mt-24 border-t border-white/5 py-8 flex flex-col md:flex-row items-center justify-between gap-4 grayscale opacity-40">
          <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest tracking-[0.4em]">© 2026 ADVANCED AI TICKETING SYSTEMS INC.</p>

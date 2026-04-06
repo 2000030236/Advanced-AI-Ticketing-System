@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { Check, Circle } from 'lucide-react';
 
 const StatusStepper = ({ currentStatus }) => {
-  const steps = ['Raised', 'Assigned', 'In Progress', 'Solved'];
+  const steps = ['Raised', 'Assigned', 'In Progress', 'Solved', 'Closed'];
   
-  const currentStepIndex = steps.indexOf(currentStatus);
+  // Logic: If status is Solved, the ticket is effectively Closed in the lifecycle
+  const effectiveStatus = currentStatus === 'Solved' ? 'Closed' : currentStatus;
+  const currentStepIndex = steps.indexOf(effectiveStatus);
 
   return (
     <div className="w-full py-8">

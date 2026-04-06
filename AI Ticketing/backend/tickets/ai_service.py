@@ -14,7 +14,7 @@ class AIAnalysisResult(BaseModel):
     department: Literal["Engineering", "DevOps", "Finance", "HR", "IT", "Product", "Marketing", "Legal"]
     employee: Optional[str] = None
     confidence: int # 0 - 100
-    estimated_time: str
+    estimated_time: Optional[str] = "TBD"
     ai_answer: Optional[str] = None
 
 class SelectedEmployee(BaseModel):
@@ -43,24 +43,22 @@ class AIService:
         STRICT SPECIFICATIONS:
         1. category: Choose from ["Billing", "Bug", "Access", "HR", "Server", "DB", "Feature", "Other"]
         2. severity: Choose from ["Critical", "High", "Medium", "Low"]
-        3. resolution: Choose from ["Auto-resolve", "Assign"]
+        3. resolution: 
+           - 'Auto-resolve': ONLY for standard informational requests, password resets (if simple), or procedural questions solvable via self-service.
+           - 'Assign': For any technical bug, system failure, security access, hardware issue, or complex business logic dispute.
         4. sentiment: Choose from ["Frustrated", "Neutral", "Polite"]
         5. department: Choose from ["Engineering", "DevOps", "Finance", "HR", "IT", "Product", "Marketing", "Legal"]
         6. confidence: Integer between 0 and 100.
         7. summary: 
-           - Must be 2–3 sentences.
-           - Describe the specific technical or business issue clearly.
-           - DO NOT use generic phrases like "User is reporting...", "Executive Summary...", "The user needs...".
-           - Get straight to the point.
+           - Must be 2–3 sentences of HIGH-LEVEL TECHNICAL or CORPORATE analysis.
+           - For general queries, summarize the inquiry with extreme professionalism.
+           - Tone: Expert, Concise, Enterprise-grade.
         8. ai_answer:
-           - If Auto-resolve: Provide a detailed, technical helpdesk-style solution.
-           - Must directly address the specific issue in the description.
-           - Use the category and severity ({title}) to prioritize the instructions.
-           - Use the following strictly structured format:
-             "RESOLUTION: [Technical explanation of the fix]. 
-              IMPLEMENTATION: [Step-by-step bullet points]. 
-              NEXT STEPS: [What the user should verify or do if it fails]."
-           - Tone: Elite IT Specialist—authoritative yet helpful.
+           - Mandatory Format: EXACTLY 3 lines. Each must be a single, elite, professional sentence.
+           - Line 1: RESOLUTION: [Concise technical explanation or briefing]. 
+           - Line 2: IMPLEMENTATION: [Single-sentence deployment or action path]. 
+           - Line 3: NEXT STEPS: [One-sentence verification or follow-up protocol].
+           - Tone: Elite Senior Systems Engineer.
 
         Your response MUST be ONLY the JSON object, with NO extra text, reasoning, or markdown. 
         Format your response exactly like this template:

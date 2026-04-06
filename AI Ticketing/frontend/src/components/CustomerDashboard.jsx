@@ -78,24 +78,34 @@ const CustomerDashboard = ({ userId, onRaiseComplaint, onViewTicket }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex flex-col justify-center items-center backdrop-blur-md">
+        <div 
+          onClick={() => setStatusFilter('All')}
+          className={`cursor-pointer transition-all duration-300 bg-white/5 border p-6 rounded-2xl flex flex-col justify-center items-center backdrop-blur-md hover:bg-white/10 ${statusFilter === 'All' ? 'border-white/40 scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.1)]' : 'border-white/10 hover:border-white/20'}`}
+        >
           <p className="text-white/40 uppercase tracking-widest text-xs font-bold mb-2">Total Raised</p>
           <p className="text-4xl text-white font-black">{data.stats.total}</p>
         </div>
-        <div className="bg-blue-500/10 border border-blue-500/20 p-6 rounded-2xl flex flex-col justify-center items-center backdrop-blur-md">
+        <div 
+          onClick={() => setStatusFilter('In Progress')}
+          className={`cursor-pointer transition-all duration-300 p-6 rounded-2xl flex flex-col justify-center items-center backdrop-blur-md hover:bg-blue-500/20 ${statusFilter === 'In Progress' ? 'bg-blue-500/20 border-blue-500/50 scale-[1.02] shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'bg-blue-500/10 border-blue-500/20 hover:border-blue-500/40'}`}
+        >
           <p className="text-blue-400 uppercase tracking-widest text-xs font-bold mb-2">In Progress</p>
           <p className="text-4xl text-blue-400 font-black">{data.stats.in_progress}</p>
         </div>
-        <div className="bg-green-500/10 border border-green-500/20 p-6 rounded-2xl flex flex-col justify-center items-center backdrop-blur-md">
+        <div 
+          onClick={() => setStatusFilter('Solved')}
+          className={`cursor-pointer transition-all duration-300 p-6 rounded-2xl flex flex-col justify-center items-center backdrop-blur-md hover:bg-green-500/20 ${statusFilter === 'Solved' ? 'bg-green-500/20 border-green-500/50 scale-[1.02] shadow-[0_0_20px_rgba(34,197,94,0.2)]' : 'bg-green-500/10 border-green-500/20 hover:border-green-500/40'}`}
+        >
           <p className="text-green-400 uppercase tracking-widest text-xs font-bold mb-2">Solved</p>
           <p className="text-4xl text-green-400 font-black">{data.stats.solved}</p>
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md mt-8">
-        <div className="bg-black/30 p-4 border-b border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+
+      <div className="mt-12 space-y-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-md">
             <div className="flex items-center gap-3">
-               <h3 className="text-white font-bold tracking-widest uppercase text-sm">Recent Tickets</h3>
+               <h3 className="text-white font-bold tracking-widest uppercase text-xs opacity-60">Recent Tickets</h3>
                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
                   <motion.div 
                     animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
@@ -132,7 +142,8 @@ const CustomerDashboard = ({ userId, onRaiseComplaint, onViewTicket }) => {
                 <option value="All" className="bg-[#0a0a0a]">Severity: All</option>
                 <option value="CRITICAL" className="bg-[#0a0a0a]">Critical</option>
                 <option value="HIGH" className="bg-[#0a0a0a]">High</option>
-                <option value="NORMAL" className="bg-[#0a0a0a]">Normal</option>
+                <option value="MEDIUM" className="bg-[#0a0a0a]">Medium</option>
+                <option value="LOW" className="bg-[#0a0a0a]">Low</option>
               </select>
               <select 
                 value={dateFilter}
@@ -151,70 +162,115 @@ const CustomerDashboard = ({ userId, onRaiseComplaint, onViewTicket }) => {
             No complaints found.
           </div>
         ) : (
-          <ul className="divide-y divide-white/10">
-            {data.tickets
-              .filter(ticket => {
-                const matchesSearch = ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                                     ticket.description.toLowerCase().includes(searchTerm.toLowerCase());
-                const matchesStatus = statusFilter === 'All' || ticket.status === statusFilter;
-                const matchesSeverity = severityFilter === 'All' || ticket.severity === severityFilter;
-                
-                // Date Filtering Logic
-                const ticketDate = new Date(ticket.created_at);
-                const now = new Date();
-                let matchesDate = true;
-                if (dateFilter === 'Today') {
-                  matchesDate = ticketDate.toDateString() === now.toDateString();
-                } else if (dateFilter === 'Week') {
-                  const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
-                  matchesDate = ticketDate >= sevenDaysAgo;
-                } else if (dateFilter === 'Month') {
-                  const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
-                  matchesDate = ticketDate >= thirtyDaysAgo;
-                }
-                
-                return matchesSearch && matchesStatus && matchesSeverity && matchesDate;
-              })
-              .map((ticket) => (
-              <li 
-                key={ticket.id} 
-                onClick={() => onViewTicket(ticket)}
-                className={`p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-white/10 transition-colors cursor-pointer ${ticket.notifications && ticket.notifications.some(n => !n.is_read) ? 'bg-blue-900/20 border-l-4 border-blue-500' : ''}`}
-              >
-                <div>
-                  <h4 className="text-white font-bold flex items-center">
-                    {ticket.title}
-                    {ticket.notifications && ticket.notifications.some(n => !n.is_read) && (
-                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-500 text-white uppercase tracking-widest">
-                        {ticket.notifications.filter(n => !n.is_read).length} New Update{ticket.notifications.filter(n => !n.is_read).length > 1 ? 's' : ''}
-                      </span>
-                    )}
-                  </h4>
+          <ul className="p-4 space-y-3">
+        {(() => {
+          const filteredTickets = data.tickets.filter(ticket => {
+            const matchesSearch = (ticket.title?.toLowerCase() || '').includes(searchTerm.toLowerCase()) || 
+                                 (ticket.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+            
+            const matchesStatus = statusFilter === 'All' || 
+                                 (statusFilter === 'In Progress' ? ['In Progress', 'Assigned'].includes(ticket.status) : ticket.status === statusFilter);
+            
+            const matchesSeverity = severityFilter === 'All' || (ticket.severity || '').toUpperCase() === severityFilter.toUpperCase();
+            
+            // Date Filtering Logic
+            const ticketDate = new Date(ticket.created_at);
+            const now = new Date();
+            now.setHours(0, 0, 0, 0); // Reset time for daily comparison
+            const ticketDay = new Date(ticketDate);
+            ticketDay.setHours(0, 0, 0, 0);
 
-                  <p className="text-white/40 text-xs mt-1 uppercase tracking-wider">{new Date(ticket.created_at).toLocaleDateString()} - {ticket.category || 'Uncategorized'}</p>
+            let matchesDate = true;
+            if (dateFilter === 'Today') {
+              matchesDate = ticketDay.getTime() === now.getTime();
+            } else if (dateFilter === 'Week') {
+              const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
+              matchesDate = ticketDate >= sevenDaysAgo;
+            } else if (dateFilter === 'Month') {
+              const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+              matchesDate = ticketDate >= thirtyDaysAgo;
+            }
+            
+            return matchesSearch && matchesStatus && matchesSeverity && matchesDate;
+          });
+
+          if (filteredTickets.length === 0) {
+            return (
+              <div className="p-12 text-center border-2 border-dashed border-white/5 rounded-3xl mt-4">
+                <div className="bg-white/5 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                   </svg>
                 </div>
-                <div className="flex items-center gap-4">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest
-                    ${ticket.status === 'Solved' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 
-                      ticket.status === 'Raised' ? 'bg-white/10 text-white/60 border border-white/20' : 
-                      'bg-blue-500/20 text-blue-400 border border-blue-500/30'}`}
-                  >
-                    {ticket.status}
-                  </span>
-                  <button 
-                    onClick={(e) => handleDelete(e, ticket.id)}
-                    className="p-2 bg-red-500/10 hover:bg-red-500/30 border border-red-500/20 rounded-lg text-red-400 transition-colors"
-                    title="Delete Ticket"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
-              </li>
-            ))}
+                <p className="text-white/40 uppercase tracking-widest text-[10px] font-black">No tickets found matching your criteria</p>
+                <button onClick={() => {setSearchTerm(''); setStatusFilter('All'); setSeverityFilter('All'); setDateFilter('All');}} className="mt-4 text-blue-500 text-[10px] font-black uppercase tracking-widest hover:underline">Clear all filters</button>
+              </div>
+            );
+          }
+
+          return (
+            <ul className="p-4 space-y-3">
+              {filteredTickets.map((ticket) => (
+                <motion.li 
+                  key={ticket.id}
+                  whileHover={{ scale: 1.01, x: 5 }}
+                  onClick={() => onViewTicket(ticket)}
+                  className={`p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl transition-all cursor-pointer shadow-sm ${ticket.notifications && ticket.notifications.some(n => !n.is_read) ? 'border-l-4 border-l-blue-500 bg-blue-900/10' : ''}`}
+                >
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-white font-bold tracking-wide">
+                        {ticket.title}
+                      </h4>
+                      {ticket.notifications && ticket.notifications.some(n => !n.is_read) && (
+                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-[4px] text-[8px] font-black bg-blue-500 text-white uppercase tracking-widest shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                          New
+                        </span>
+                      )}
+                    </div>
+
+                    <p className="text-white/30 text-[10px] mt-1.5 uppercase tracking-[0.1em] font-bold">
+                      {new Date(ticket.created_at).toLocaleDateString()} · {ticket.category || 'General'} · <span className={`${ticket.severity?.toUpperCase() === 'CRITICAL' ? 'text-red-500/80' : 'text-blue-400/80'}`}>{ticket.severity}</span>
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className={`flex items-center gap-2.5 px-4 py-1.5 rounded-xl border transition-all duration-300 shadow-lg ${
+                      ticket.status === 'Solved' ? 'bg-green-500/10 border-green-500/30 shadow-green-500/5' : 
+                      ticket.status === 'Raised' ? 'bg-white/5 border-white/10 shadow-white/5' : 
+                      'bg-blue-500/10 border-blue-500/30 shadow-blue-500/5'
+                    }`}>
+                      <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        ticket.status === 'Solved' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 
+                        ticket.status === 'Raised' ? 'bg-white/40 shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 
+                        'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]'
+                      }`} />
+                      <span className={`text-[9px] font-black uppercase tracking-[0.2em] ${
+                        ticket.status === 'Solved' ? 'text-green-400' : 
+                        ticket.status === 'Raised' ? 'text-white/50' : 
+                        'text-blue-400'
+                      }`}>
+                        {ticket.status}
+                      </span>
+                    </div>
+                    <button 
+                      onClick={(e) => handleDelete(e, ticket.id)}
+                      className="p-2.5 bg-red-500/5 hover:bg-red-500/20 border border-red-500/10 hover:border-red-500/30 rounded-lg text-red-400 group/del transition-all"
+                      title="Delete Ticket"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 opacity-50 group-hover/del:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </motion.li>
+              ))}
+            </ul>
+          );
+        })()}
+
           </ul>
         )}
+
       </div>
     </motion.div>
   );

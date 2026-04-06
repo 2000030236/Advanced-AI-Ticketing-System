@@ -36,7 +36,13 @@ class CustomerRegisterView(APIView):
 
         if User.objects.filter(username=email).exists():
             return Response({'error': 'User already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        name = request.data.get('name', '')
         user = User.objects.create_user(username=email, email=email, password=password)
+        
+        from .models import UserProfile
+        UserProfile.objects.create(user=user, role='customer', full_name=name)
+        
         return Response({'message': 'User created successfully', 'user_id': user.id})
 
 class CustomerLoginView(APIView):
@@ -52,7 +58,8 @@ class CustomerLoginView(APIView):
                 'message': 'Logged in', 
                 'email': user.email, 
                 'user_id': user.id,
-                'role': profile.role
+                'role': profile.role,
+                'name': profile.full_name or user.email.split('@')[0]
             })
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -149,14 +156,14 @@ class TicketCreateView(APIView):
             ticket.estimated_time = analysis.estimated_time
             ticket.ai_answer = analysis.ai_answer
             
-            # If auto-resolved, update status
+            # If auto-resolved, update status and skip assignment
             if analysis.resolution == 'Auto-resolve':
                 ticket.status = 'Solved'
                 ticket.is_auto_resolved = True
-            
-            if analysis.severity == 'Critical':
-                ticket.is_escalated = True
-            else:
+            elif analysis.resolution == 'Assign':
+                if analysis.severity == 'Critical':
+                    ticket.is_escalated = True
+                
                 # --- Intelligent Assignment Engine ---
                 try:
                     # 1. Load Employee Directory
@@ -354,18 +361,26 @@ class AssigneeTicketNoteUpdateView(APIView):
         
         return Response({"status": "Notes updated successfully", "notes": notes}, status=status.HTTP_200_OK)
 
-class TicketDeleteView(APIView):
+class TicketDetailView(APIView):
     """
-    DELETE /api/tickets/<id>/
-    Allows a customer to delete their own ticket.
+    GET /api/tickets/<id>/ -> Fetch single ticket details (for real-time updates)
+    DELETE /api/tickets/<id>/ -> Delete a ticket
     """
+    def get(self, request, pk, *args, **kwargs):
+        ticket = get_object_or_404(Ticket, pk=pk)
+        serializer = TicketSerializer(ticket)
+        data = serializer.data
+        
+        # Success rate
+        stats = Ticket.objects.filter(category=ticket.category, is_helpful__isnull=False).aggregate(
+            total=Count('id'), helpful=Count('id', filter=Q(is_helpful=True))
+        )
+        data['success_rate'] = round((stats['helpful'] / stats['total']) * 100, 1) if stats['total'] > 0 else None
+        return Response(data, status=status.HTTP_200_OK)
+
     def delete(self, request, pk, *args, **kwargs):
         ticket = get_object_or_404(Ticket, pk=pk)
-        
-        # Optionally, verify the user making the request owns the ticket
-        # Or just simple deletion.
         ticket.delete()
-        
         return Response({"status": "Ticket deleted"}, status=status.HTTP_204_NO_CONTENT)
 
 class MarkNotificationsReadView(APIView):
