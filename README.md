@@ -300,16 +300,16 @@ This is an Employee Portal for Retrving and Sloving a Raised Assigned Ticket By 
 <img width="902" height="606" alt="image" src="https://github.com/user-attachments/assets/c41a8939-4274-4315-ad25-b51c277df01e" />
 
 
-This is Admin Application who can see all data and have Access to change Role's.
+This is Admin Application who can see all data and have Access to change DATA.
 ---
 
 ## 🎥 Demo Video
 
-(Add demo video link here)
+
 
 ---
 
-## 💡 Key Takeaway
+💡 Key Takeaway
 
 This project demonstrates the ability to:
 
@@ -319,8 +319,3 @@ This project demonstrates the ability to:
 * Combine AI with deterministic logic
 * Deliver production-like full-stack applications
 
----
-
-## 👨‍💻 Author
-
-**Your Name**
