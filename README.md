@@ -281,13 +281,15 @@ AI Detected and Resloved This Ticket.
 
 This are the Info.
 
-<img width="844" height="1271" alt="Human_Assigned" src="https://github.com/user-attachments/assets/92a445b6-ac5c-46de-bf2b-e40fef5bca4e" />
+<img width="592" height="606" alt="image" src="https://github.com/user-attachments/assets/c04042f7-cff7-4b0a-b08d-a3ed147e6254" />
+
+<img width="419" height="464" alt="image" src="https://github.com/user-attachments/assets/a0bba5b5-c5fb-46e4-a7e9-69b6fe787275" />
 
 This is Human Assigned.
 
-<img width="1574" height="1329" alt="Assignee_portal(Ticket-checker)" src="https://github.com/user-attachments/assets/f0db1d9b-7db3-4e8a-881a-5f4a04615b5a" />
+<img width="606" height="605" alt="image" src="https://github.com/user-attachments/assets/b5885fcb-4d48-43d3-a506-178ada65c539" />
 
-This is Asiignee(employee) Who Sloves when Ticket is not Sloved by AI.
+This is Asiignee(employee) Portal, who sloves human assigned tickets.
 
 <img width="1549" height="1333" alt="Admin_portal" src="https://github.com/user-attachments/assets/5f88915d-83cb-4f78-a3b1-e310fc6952cd" />
 
