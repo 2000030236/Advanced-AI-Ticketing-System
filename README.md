@@ -277,7 +277,7 @@ User_dashboard
 
 AI Detected and Resloved This Ticket.
 
-<img width="1254" height="1333" alt="Auto_Reslove (2)" src="https://github.com/user-attachments/assets/373a4452-3666-40c1-af43-2cce0fa5d68a" />
+<img width="417" height="320" alt="image" src="https://github.com/user-attachments/assets/8edf93e6-be1c-409d-a82b-65d02f7f3da3" />
 
 This are the Info.
 
