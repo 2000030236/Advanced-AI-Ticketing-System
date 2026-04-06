@@ -268,19 +268,25 @@ npm run dev
 
 ## 📸 Screenshots
 
-<img width="1735" height="1332" alt="user_dashboard" src="https://github.com/user-attachments/assets/4e9b9011-a3b2-43d1-90ec-83d4d636e44e" />
+
+<img width="625" height="608" alt="image" src="https://github.com/user-attachments/assets/a2573454-ea28-4e3c-b378-f52632b6acd4" />
+
 User_dashboard-->To see a minimal analytics
 
 <img width="1327" height="1324" alt="Auto_Reslove" src="https://github.com/user-attachments/assets/56cf3b98-6804-4014-98bd-b4261d286632" />
+
 AI Detected and Resloved This Ticket.
 
 <img width="1254" height="1333" alt="Auto_Reslove (2)" src="https://github.com/user-attachments/assets/373a4452-3666-40c1-af43-2cce0fa5d68a" />
+
 This are the Info.
 
 <img width="844" height="1271" alt="Human_Assigned" src="https://github.com/user-attachments/assets/92a445b6-ac5c-46de-bf2b-e40fef5bca4e" />
+
 This is Human Assigned.
 
 <img width="1574" height="1329" alt="Assignee_portal(Ticket-checker)" src="https://github.com/user-attachments/assets/f0db1d9b-7db3-4e8a-881a-5f4a04615b5a" />
+
 This is Asiignee(employee) Who Sloves when Ticket is not Sloved by AI.
 
 <img width="1549" height="1333" alt="Admin_portal" src="https://github.com/user-attachments/assets/5f88915d-83cb-4f78-a3b1-e310fc6952cd" />
